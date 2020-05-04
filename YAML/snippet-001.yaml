@@ -1,0 +1,13 @@
+## Associate WAFv2 Web ACL with a load balancer
+## Alb = AWS::ElasticLoadBalancingV2::LoadBalancer
+## webACL = AWS::WAFv2::WebACL
+
+  wafALBAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    Properties:
+      ResourceArn: 
+        !Sub 
+          - 'arn:aws:elasticloadbalancing:${AWS::Region}:${AWS::AccountId}:loadbalancer/${TargetALB}'
+          - TargetALB: !GetAtt Alb.LoadBalancerFullName
+      WebACLArn: !GetAtt wafACL.Arn
+      

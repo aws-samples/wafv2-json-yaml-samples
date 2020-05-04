@@ -1,0 +1,56 @@
+{
+  "Name": "rule-012",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-012"
+  },
+  "Statement": {
+    "NotStatement": {
+      "Statement": {
+        "AndStatement": {
+          "Statements": [
+            {
+              "SizeConstraintStatement": {
+                "FieldToMatch": {
+                  "SingleHeader": {
+                    "Name": "wee"
+                  }
+                },
+                "ComparisonOperator": "EQ",
+                "Size": "0",
+                "TextTransformations": [
+                  {
+                    "Type": "NONE",
+                    "Priority": 0
+                  }
+                ]
+              }
+            },
+            {
+              "ByteMatchStatement": {
+                "FieldToMatch": {
+                  "SingleHeader": {
+                    "Name": "bah"
+                  }
+                },
+                "PositionalConstraint": "ENDS_WITH",
+                "SearchString": "wee",
+                "TextTransformations": [
+                  {
+                    "Type": "NONE",
+                    "Priority": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

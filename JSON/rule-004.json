@@ -1,0 +1,127 @@
+{
+  "Name": "rule-004",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-004"
+  },
+  "Statement": {
+    "OrStatement": {
+      "Statements": [
+        {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "SingleHeader": {
+                "Name": "Host"
+              }
+            },
+            "PositionalConstraint": "STARTS_WITH",
+            "SearchString": "block.example.com",
+            "TextTransformations": [
+              {
+                "Type": "NONE",
+                "Priority": 0
+              }
+            ]
+          }
+        },
+        {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "SingleQueryArgument": {
+                "Name": "SessionID"
+              }
+            },
+            "PositionalConstraint": "EXACTLY",
+            "SearchString": "12345",
+            "TextTransformations": [
+              {
+                "Type": "NONE",
+                "Priority": 0
+              }
+            ]
+          }
+        },
+        {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "AllQueryArguments": {}
+            },
+            "PositionalConstraint": "ENDS_WITH",
+            "SearchString": "melon",
+            "TextTransformations": [
+              {
+                "Type": "COMPRESS_WHITE_SPACE",
+                "Priority": 0
+              }
+            ]
+          }
+        },
+        {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "UriPath": {}
+            },
+            "PositionalConstraint": "CONTAINS_WORD",
+            "SearchString": "water",
+            "TextTransformations": [
+              {
+                "Type": "URL_DECODE",
+                "Priority": 0
+              }
+            ]
+          }
+        },
+        {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "QueryString": {}
+            },
+            "PositionalConstraint": "CONTAINS",
+            "SearchString": "badbot",
+            "TextTransformations": [
+              {
+                "Type": "URL_DECODE",
+                "Priority": 0
+              }
+            ]
+          }
+        },
+        {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "Body": {}
+            },
+            "PositionalConstraint": "CONTAINS",
+            "SearchString": "oops",
+            "TextTransformations": [
+              {
+                "Type": "COMPRESS_WHITE_SPACE",
+                "Priority": 0
+              }
+            ]
+          }
+        },
+        {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "Method": {}
+            },
+            "PositionalConstraint": "CONTAINS",
+            "SearchString": "GET",
+            "TextTransformations": [
+              {
+                "Type": "NONE",
+                "Priority": 0
+              }
+            ]
+          }
+        }            
+      ]
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "Name": "rule-003",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-003"
+  },
+  "Statement": {
+    "AndStatement": {
+      "Statements": [
+        {
+          "NotStatement": {
+            "Statement": {
+              "IPSetReferenceStatement": {
+                "ARN": "arn:aws:wafv2:us-east-1:<aws-account-id>:regional/ipset/<path-id>"
+              }
+            }
+          }
+        },
+        {
+          "NotStatement": {
+            "Statement": {
+              "RegexPatternSetReferenceStatement": {
+                "FieldToMatch": {
+                  "AllQueryArguments": {}
+                },
+                "ARN": "arn:aws:wafv2:us-east-1:<aws-account-id>:regional/regexpatternset/<path-id>",
+                "TextTransformations": [
+                  {
+                    "Type": "LOWERCASE",
+                    "Priority": 0
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "NotStatement": {
+            "Statement": {
+              "ByteMatchStatement": {
+                "FieldToMatch": {
+                  "Body": {}
+                },
+                "PositionalConstraint": "EXACTLY",
+                "SearchString": "abcde",
+                "TextTransformations": [
+                  {
+                    "Type": "NONE",
+                    "Priority": 0
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

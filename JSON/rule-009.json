@@ -1,0 +1,78 @@
+{
+  "Name": "rbr-with-condition",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rbr-with-condition"
+  },
+  "Statement": {
+    "RateBasedStatement": {
+      "Limit": "1000",
+      "AggregateKeyType": "IP",
+      "ScopeDownStatement": {
+        "AndStatement": {
+          "Statements": [
+            {
+              "OrStatement": {
+                "Statements": [
+                  {
+                    "ByteMatchStatement": {
+                      "FieldToMatch": {
+                        "Method": {}
+                      },
+                      "PositionalConstraint": "EXACTLY",
+                      "SearchString": "GET",
+                      "TextTransformations": [
+                        {
+                          "Type": "NONE",
+                          "Priority": 0
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "ByteMatchStatement": {
+                      "FieldToMatch": {
+                        "Method": {}
+                      },
+                      "PositionalConstraint": "EXACTLY",
+                      "SearchString": "POST",
+                      "TextTransformations": [
+                        {
+                          "Type": "NONE",
+                          "Priority": 0
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "NotStatement": {
+                "Statement": {
+                  "RegexPatternSetReferenceStatement": {
+                    "FieldToMatch": {
+                      "Body": {}
+                    },
+                    "ARN": "arn:aws:wafv2:us-east-1:<aws-account-id>:regional/regexpatternset/<name>/<path-id>",
+                    "TextTransformations": [
+                      {
+                        "Type": "HTML_ENTITY_DECODE",
+                        "Priority": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

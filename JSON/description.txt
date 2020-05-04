@@ -1,0 +1,60 @@
+
+* rule-001.json
+Logical Statement: ([String Match 1] OR [String Match 2]) AND [IP Set Match] 
+Description: Ideal when you need to match request originating from specific IP that also contains certain string patterns within the request.
+
+* rule-002.json
+Logical Statement: ([Regex Match] AND NOT([IP Set Match])) OR [Size Constraint Match] 
+Description: If request contains certain regex patterns and is not from known list of IPs, or query argument size is equal to 1337, then block the request.
+
+* rule-003.json
+Logical Statement: NOT([IP Set Match]) AND NOT([Regex Match]) AND NOT([String Match])
+Description: Simple AND logical statement with 3 separate NOT conditions.
+
+* rule-004.json
+Logical Statement: 7-way OR [String Match]
+Description: Simple OR logical statement with assortment of 7 string matches.
+
+* rule-005.json
+Logical Statement: [Geo Match] AND NOT([Regex Match Set])
+Description: Only block when it's country listed and does not fall into regex pattern specified.
+
+* rule-006.json
+Logical Statement: [XSS Detection] AND NOT([String Match])
+Description: This is useful if you want to whitelist certain pattern from the built-in XSS detection.
+
+* rule-007.json
+Logical Statement: [XSS Detection] AND (NOT([String Match 1]) OR NOT([String Match 2]))
+Description: Slightly complicated version of rule-006. This is useful if you want to whitelist certain pattern from the built-in XSS detection.
+
+* rule-008.json
+Logical Statement: [Size Constraint Match]
+Description: This will check if certain header exists within the request. 
+
+* rule-009.json
+Logical Statement: [Rate Limiting] AND (([String Match 1] OR [String Match 2]) AND NOT([Regex Match]))
+Description: This is a rate-limiting rule that will only track IPs that matches the AND condition and its logic inside it.
+
+* rule-010.json
+Logical Statement: NOT([Geo Match 1] OR [Geo Match 2] OR [Geo Match 3] OR [Geo Match 4] OR [Geo Match 5])
+Description: Block requests originating from any country (this example is just to show all supported country code).
+
+* rule-011.json
+Logical Statement: [Rate Based Rule] AND NOT([IP Set Match]) AND NOT([String Match 1]) AND NOT([String Match 2])
+Description: This will cause rate-based rule to trigger only when the conditions are met. Otherwise it will be ignored (not counted).
+
+* rule-012.json
+Logical Statement: NOT([Size Match] AND [String Match])
+Description: Simple example in which NOT statement has multiple objects.
+
+* rule-013.json
+Logical Statement: (AWS Managed Rules - Common Rule Set)
+Description: Adds AWS Managed Rules - Common Rule Set. See https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html for complete list.
+
+* rule-014.json
+Logical Statement: NOT([String Match]) AND ([XSS Detection 1] OR [XSS Detection 2] OR [XSS Detection 3])
+Description: Three XSS detection, each looking at different areas (query string, body, and cookie) with URL whitelist.
+
+* rule-015.json
+Logical Statement: [IP Set Match 1] OR [IP Set Match 2]
+Description: WAF allows up to 10,000 IPs for each set. This allows you to merge two IP sets, expanding the pool to 20,000 IP sets. You can list more here as desired.

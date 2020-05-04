@@ -1,0 +1,46 @@
+Description: This will create a web ACL with block rule having XSS detection on query string and string match for excluding specific pattern.
+
+Resources:
+  TestWebACLForCFN:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: TestWebACLForCFN
+      Scope: REGIONAL
+      Description: WebACL CloudFormation Test For XSS Exclude
+      DefaultAction:
+        Block: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: TestWebACLForCFNMetric          
+      
+      Rules:
+        - Name: XSSWithException
+          Priority: 1
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: XSSWithExceptionMetric
+          Statement:
+            AndStatement:
+              Statements:          
+              - XssMatchStatement:
+                  FieldToMatch:
+                    QueryString: {}
+                  TextTransformations:
+                    - Priority: 1
+                      Type: URL_DECODE
+                    - Priority: 2
+                      Type: HTML_ENTITY_DECODE
+              - NotStatement:
+                  Statement:    
+                    ByteMatchStatement:
+                      FieldToMatch:
+                        QueryString: {}
+                      PositionalConstraint: CONTAINS
+                      SearchString: on=
+                      TextTransformations:
+                      - Type: NONE
+                        Priority: 0

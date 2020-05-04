@@ -1,0 +1,41 @@
+Description: This will create a web ACL with block rule having IP set and string match for excluding specific host domain.
+
+Resources:
+  TestWebACLForCFN:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: TestWebACLForCFN
+      Scope: REGIONAL
+      Description: WebACL CloudFormation Test
+      DefaultAction:
+        Block: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: TestWebACLForCFNMetric          
+      
+      Rules:
+        - Name: IPSetWithException
+          Priority: 1
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: IPSetWithExceptionMetric
+          Statement:
+            AndStatement:
+              Statements:          
+              - IPSetReferenceStatement:
+                  ARN: arn:aws:wafv2:us-east-1:<aws-id>:regional/ipset/<name>/<id>
+              - NotStatement:
+                  Statement:    
+                    ByteMatchStatement:
+                      FieldToMatch:
+                        SingleHeader:
+                          Name: host
+                      PositionalConstraint: EXACTLY
+                      SearchString: dev.appleorange.com
+                      TextTransformations:
+                      - Type: NONE
+                        Priority: 0

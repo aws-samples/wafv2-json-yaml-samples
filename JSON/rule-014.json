@@ -1,0 +1,88 @@
+{
+  "Name": "rule-014",
+  "Priority": 2,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-014"
+  },
+  "Statement": {
+    "AndStatement": {
+      "Statements": [
+        {
+          "NotStatement": {
+            "Statement": {
+              "ByteMatchStatement": {
+                "SearchString": "/report/product",
+                "FieldToMatch": {
+                  "UriPath": {}
+                },
+                "TextTransformations": [
+                  {
+                    "Priority": 0,
+                    "Type": "NONE"
+                  }
+                ],
+                "PositionalConstraint": "STARTS_WITH"
+              }
+            }
+          }
+        },
+        {
+          "OrStatement": {
+            "Statements": [
+              {
+                "XssMatchStatement": {
+                  "FieldToMatch": {
+                    "QueryString": {}
+                  },
+                  "TextTransformations": [
+                    {
+                      "Priority": 0,
+                      "Type": "URL_DECODE"
+                    }
+                  ]
+                }
+              },
+              {
+                "XssMatchStatement": {
+                  "FieldToMatch": {
+                    "Body": {}
+                  },
+                  "TextTransformations": [
+                    {
+                      "Priority": 0,
+                      "Type": "HTML_ENTITY_DECODE"
+                    },
+                    {
+                      "Priority": 1,
+                      "Type": "URL_DECODE"
+                    }
+                  ]
+                }
+              },
+              {
+                "XssMatchStatement": {
+                  "FieldToMatch": {
+                    "SingleHeader": {
+                      "Name": "cookie"
+                    }
+                  },
+                  "TextTransformations": [
+                    {
+                      "Priority": 0,
+                      "Type": "URL_DECODE"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

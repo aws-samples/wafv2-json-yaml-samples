@@ -1,0 +1,29 @@
+{
+  "Name": "rule-008",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-008"
+  },
+  "Statement": {
+    "SizeConstraintStatement": {
+      "FieldToMatch": {
+        "SingleHeader": {
+          "Name": "x-custom-header"
+        }
+      },
+      "ComparisonOperator": "GE",
+      "Size": 0,
+      "TextTransformations": [
+        {
+          "Type": "NONE",
+          "Priority": 0
+        }
+      ]
+    }
+  }
+}

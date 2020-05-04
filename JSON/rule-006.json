@@ -1,0 +1,58 @@
+{
+  "Name": "rule-006",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-006"
+  },
+  "Statement": {
+    "AndStatement": {
+      "Statements": [
+        {
+          "XssMatchStatement": {
+            "FieldToMatch": {
+              "Body": {}
+            },
+            "TextTransformations": [
+              {
+                "Type": "URL_DECODE",
+                "Priority": 0
+              },
+              {
+                "Type": "HTML_ENTITY_DECODE",
+                "Priority": 1
+              }
+            ]
+          }
+        },
+        {
+          "NotStatement": {
+            "Statement": {
+              "ByteMatchStatement": {
+                "FieldToMatch": {
+                  "Body": {}
+                },
+                "PositionalConstraint": "CONTAINS",
+                "SearchString": "on=",
+                "TextTransformations": [
+                  {
+                    "Type": "URL_DECODE",
+                    "Priority": 0
+                  },
+                  {
+                    "Type": "HTML_ENTITY_DECODE",
+                    "Priority": 1
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

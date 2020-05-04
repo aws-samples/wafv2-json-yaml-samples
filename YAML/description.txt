@@ -1,0 +1,16 @@
+
+** WARNING! **
+In CloudFormation, you can only write 3 level of nested rule statements max. This is because CloudFormation does not allow recursive operation.
+You may need to reduce or optimize nested statements that you may have (e.g. NOT(A AND B) instead of NOT(A) AND NOT(B)), or use custom resources functionality.
+
+* snippet-001.yaml
+Description: This is a snippet that you can reference to for associating web ACL to ALB.
+
+* webacl-create-001.yaml
+Description: This will create a web ACL with AWS Managed Ruleset (Common Rule Set) enabled and exluding a rule inside it.
+
+* webacl-create-002.yaml
+Description: This will create a web ACL with block rule having IP set and string match for excluding specific host domain.
+
+* webacl-create-003.yaml
+Description: This will create a web ACL with block rule having XSS detection on query string and string match for excluding specific pattern.

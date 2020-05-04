@@ -1,0 +1,63 @@
+{
+  "Name": "rule-001",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-001"
+  },
+  "Statement": {
+    "AndStatement": {
+      "Statements": [
+        {
+          "OrStatement": {
+            "Statements": [
+              {
+                "ByteMatchStatement": {
+                  "FieldToMatch": {
+                    "SingleHeader": {
+                      "Name": "user-agent"
+                    }
+                  },
+                  "PositionalConstraint": "EXACTLY",
+                  "SearchString": "apple",
+                  "TextTransformations": [
+                    {
+                      "Type": "NONE",
+                      "Priority": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "ByteMatchStatement": {
+                  "FieldToMatch": {
+                    "SingleHeader": {
+                      "Name": "user-agent"
+                    }
+                  },
+                  "PositionalConstraint": "EXACTLY",
+                  "SearchString": "orange",
+                  "TextTransformations": [
+                    {
+                      "Type": "NONE",
+                      "Priority": 0
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "IPSetReferenceStatement": {
+            "ARN": "arn:aws:wafv2:us-east-1:<aws-account-id>:regional/ipset/<path-id>"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "Name": "rule-011",
+  "Priority": 3,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-011"
+  },
+  "Statement": {
+    "RateBasedStatement": {
+      "Limit": "3600",
+      "AggregateKeyType": "IP",
+      "ScopeDownStatement": {
+        "AndStatement": {
+          "Statements": [
+            {
+              "NotStatement": {
+                "Statement": {
+                  "IPSetReferenceStatement": {
+                    "ARN": "arn:aws:wafv2:us-east-1:<aws-account-id>:regional/ipset/<path-id>"
+                  }
+                }
+              }
+            },
+            {
+              "NotStatement": {
+                "Statement": {
+                  "ByteMatchStatement": {
+                    "FieldToMatch": {
+                      "Method": {}
+                    },
+                    "PositionalConstraint": "EXACTLY",
+                    "SearchString": "post",
+                    "TextTransformations": [
+                      {
+                        "Type": "LOWERCASE",
+                        "Priority": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "NotStatement": {
+                "Statement": {
+                  "ByteMatchStatement": {
+                    "FieldToMatch": {
+                      "SingleHeader": {
+                        "Name": "User-Agent"
+                      }
+                    },
+                    "PositionalConstraint": "CONTAINS",
+                    "SearchString": "badrobot",
+                    "TextTransformations": [
+                      {
+                        "Type": "NONE",
+                        "Priority": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

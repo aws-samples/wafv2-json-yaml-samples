@@ -1,0 +1,34 @@
+Description: This will create a web ACL with AWS Managed Ruleset (Common Rule Set) enabled and exluding a rule inside it.
+
+Resources:
+  WebACLWithAMR:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: WebACLWithAMR
+      Scope: REGIONAL
+      Description: This is a demo web ACL with AWS Managed Rules
+      DefaultAction: 
+        Block: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: MetricForWebACLWithAMR
+      Tags:
+        - Key: sampleapple
+          Value: sampleorange
+      Rules: 
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 0
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: MetricForAMRCRS
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+              ExcludedRules:
+                - Name: NoUserAgent_HEADER
+  

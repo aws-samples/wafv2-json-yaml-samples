@@ -1,0 +1,28 @@
+{
+  "Name": "rule-015",
+  "Priority": 0,
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "rule-015"
+  },
+  "Statement": {
+    "OrStatement": {
+      "Statements": [
+        {
+          "IPSetReferenceStatement": {
+            "ARN": "arn:aws:wafv2:us-east-1:<aws-account-id>:regional/ipset/<path-id>"
+          }
+        },
+        {
+          "IPSetReferenceStatement": {
+            "ARN": "arn:aws:wafv2:us-east-1:<aws-account-id>:regional/ipset/<path-id>"
+          }
+        }
+      ]
+    }
+  }
+}
